@@ -51,4 +51,4 @@ Um das Umändern der Verlinkungen durchzuführen verwende ich eine kleine Menge 
 
 #### prepare_flash.py
 
-![prepare_flowchart](/home/note/PycharmProjects/westflashs/preparation_flowchart.png)
+![prepare_flowchart](preparation_flowchart.png)
