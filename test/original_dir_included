@@ -1,0 +1,11 @@
+//Application Binary Directory
+APPLICATION_BINARY_DIR:PATH=/workdir/zephyr/samples/basic/fade_led/build
+
+//Application Source Directory
+APPLICATION_SOURCE_DIR:PATH=/workdir/zephyr/samples/basic/fade_led
+
+//No help, variable specified on the command line.
+BOARD:UNINITIALIZED=nucleo_f401re
+
+//Path to a file.
+BOARD_DIR:PATH=/workdir/zephyr/boards/arm/nucleo_f401re

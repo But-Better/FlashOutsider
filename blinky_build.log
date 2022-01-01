@@ -1,0 +1,40 @@
+-- west build: generating a build system
+Including boilerplate (Zephyr base (cached)): /home/note/zephyrproject/zephyr/cmake/app/boilerplate.cmake
+-- Application: /home/note/zephyrproject/zephyr/samples/basic/blinky
+-- Zephyr version: 2.7.99 (/home/note/zephyrproject/zephyr), build: v2.7.99-2727-g770732fe92fa
+-- Found west (found suitable version "0.11.1", minimum required is "0.7.1")
+-- Board: nucleo_f401re
+-- Cache files will be written to: /home/note/snap/alacritty/common/.cache//zephyr
+-- ZEPHYR_TOOLCHAIN_VARIANT not set, trying to locate Zephyr SDK
+-- Found host-tools: zephyr 0.13.2 (/home/note/zephyr-sdk-0.13.2)
+-- Found dtc: /home/note/zephyr-sdk-0.13.2/sysroots/x86_64-pokysdk-linux/usr/bin/dtc (found suitable version "1.6.0", minimum required is "1.4.6")
+-- Found toolchain: zephyr 0.13.2 (/home/note/zephyr-sdk-0.13.2)
+-- Found BOARD.dts: /home/note/zephyrproject/zephyr/boards/arm/nucleo_f401re/nucleo_f401re.dts
+-- Generated zephyr.dts: /home/note/zephyrproject/zephyr/samples/basic/blinky/build/zephyr/zephyr.dts
+-- Generated devicetree_unfixed.h: /home/note/zephyrproject/zephyr/samples/basic/blinky/build/zephyr/include/generated/devicetree_unfixed.h
+-- Generated device_extern.h: /home/note/zephyrproject/zephyr/samples/basic/blinky/build/zephyr/include/generated/device_extern.h
+-- Including generated dts.cmake file: /home/note/zephyrproject/zephyr/samples/basic/blinky/build/zephyr/dts.cmake
+Parsing /home/note/zephyrproject/zephyr/Kconfig
+Loaded configuration '/home/note/zephyrproject/zephyr/boards/arm/nucleo_f401re/nucleo_f401re_defconfig'
+Merged configuration '/home/note/zephyrproject/zephyr/samples/basic/blinky/prj.conf'
+Configuration saved to '/home/note/zephyrproject/zephyr/samples/basic/blinky/build/zephyr/.config'
+Kconfig header saved to '/home/note/zephyrproject/zephyr/samples/basic/blinky/build/zephyr/include/generated/autoconf.h'
+-- The C compiler identification is GNU 10.3.0
+-- The CXX compiler identification is GNU 10.3.0
+-- The ASM compiler identification is GNU
+-- Found assembler: /home/note/zephyr-sdk-0.13.2/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/note/zephyrproject/zephyr/samples/basic/blinky/build
+-- west build: building application
+[1/152] Preparing syscall dependency handling
+
+[142/152] Linking C executable zephyr/zephyr_pre0.elf
+
+[146/152] Linking C executable zephyr/zephyr_pre1.elf
+
+[152/152] Linking C executable zephyr/zephyr.elf
+Memory region         Used Size  Region Size  %age Used
+           FLASH:       14484 B       512 KB      2.76%
+            SRAM:        4288 B        96 KB      4.36%
+        IDT_LIST:          0 GB         2 KB      0.00%
