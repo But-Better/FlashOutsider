@@ -125,4 +125,34 @@ Die `rework`-scripts haben alle im allgemeinen den selben Ablauf.
 
    - Dieser Scan ist sehr primitiv gehalten, kann jedoch in späterer Zeit noch verfeinert werden. Bisher geht er nur duch alle existenten Dateien durch,  merk sich jede mit lese und schreib rechten, und gibt diese zurück.
 
+   - ```python
+     def get_all_filepaths_in_path(local_path="."):
+         files = list()
+         scan = os.scandir(local_path)
+         for entry in scan:
+             # noinspection PyUnresolvedReferences
+             if entry.is_dir():
+                 for inner_entry in get_all_filepaths_in_path(entry.path):
+                     files.append(inner_entry)
+             elif entry.is_file():
+                 files.append(entry.path)
+     
+         return files
+     ```
+
+   - ACHTUNG: diese Funktion befindet sich in `env_utils.py`
+
 4. `add thread to list per file in need of change`
+
+   - Für jede bei Scan gefundene Datei wir nun ein `thread-object` erstellt, welches den funktions-handle für die Ersetzung, den Dateinamen, der zu ersetzende Wert und den Ersatz-Wert beinhaltet (zuzüglich kann auch noch eingestellt werden, ob eine Konsolen-Ausgabe stattfinden soll, oder nicht)
+
+   - ```python
+     def add_thread_event_to_list(_list, _filename, _old, _new, withOutput=False):
+         thread = threading.Thread(
+             target=replace_all_in_file, args=(_filename, _old, _new, withOutput)
+         )
+     
+         _list.append(thread)
+     ```
+
+   - ACHTUNG: diese Funktion befindet sich in `env_utils.py`
