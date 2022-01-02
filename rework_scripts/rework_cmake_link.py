@@ -35,7 +35,7 @@ def get_local_cmake_install():
 
 # noinspection PyShadowingNames
 def run(path_to_build, cmake_path=None):
-    if cmake_path is not None:
+    if cmake_path is None:
         cmake_path = get_local_cmake_install()
 
     initial_install = get_original_cmake_install_dir(f"{path_to_build}/CMakeCache.txt")
@@ -44,3 +44,16 @@ def run(path_to_build, cmake_path=None):
 
     for filepath in all_paths:
         env_utils.replace_all_in_file(filepath, initial_install, cmake_path, True)
+
+
+def add_needed_events_to_list(_thread_event_list, path_to_build, cmake_path=None):
+    if cmake_path is None:
+        cmake_path = get_local_cmake_install()
+
+    initial_install = get_original_cmake_install_dir(f"{path_to_build}/CMakeCache.txt")
+
+    all_paths = env_utils.get_all_filepaths_in_path(path_to_build)
+
+    for filepath in all_paths:
+        env_utils.add_thread_event_to_list(_thread_event_list, filepath, initial_install, cmake_path, True)
+
