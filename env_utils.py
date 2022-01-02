@@ -16,7 +16,7 @@ def get_all_filepaths_in_path(local_path="."):
         if entry.is_dir():
             for inner_entry in get_all_filepaths_in_path(entry.path):
                 files.append(inner_entry)
-        elif entry.is_file():
+        elif entry.is_file() and os.access(entry.path, os.W_OK) and os.access(entry.path, os.R_OK):
             files.append(entry.path)
 
     return files
