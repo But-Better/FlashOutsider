@@ -51,4 +51,108 @@ Um das Umändern der Verlinkungen durchzuführen verwende ich eine kleine Menge 
 
 #### prepare_flash.py
 
+Das Vorbereitungsscript (`prepare_flash.py`) beinhaltet den Startpunkt und durchgeht folgende Schritte:
+
+1.  lesen der Konfigurationsdatei .env 
+2.  Vorbereiten der gebrauchten Datei änderungen:
+    1.  build link
+    2.  cmake link
+    3.  project path link
+    4.  toolchain link
+    5.  zephyr base link
+
+3.  durchführen der gebrauchten Änderungen 
+
 ![prepare_flowchart](preparation_flowchart.png)
+
+#### `rework` Scripts
+
+Die `rework`-scripts haben alle im allgemeinen den selben Ablauf.
+
+![rework ablauf](general_rework_file.png)
+
+1. `get local link`
+
+   - dieser Schritt kann entweder ganz einfach sein (dieser Wert wird schon mit als Parameter übergeben / er ist immer gleicht ), oder nutzt kleine System Calls (Bspw: `whereis cmake`)
+
+   - ```python
+     # returns the local cmake installation/call path
+     def get_local_cmake_install():
+         # command to be executed (command finds cmake installation path)
+         command = ["whereis", "cmake"]
+         # command execution with given output to console put in variable
+         res = subprocess.check_output(command)
+         # returns first found path
+         return res.decode("utf-8").split(" ")[1]
+     ```
+
+2. `get link given in CMakeCache.txt`
+
+   - Wie schon oben beschrieben, befinden sich alle gebrauchten Informationen um alle Dateien umzuschreiben in der `CMakeCache.txt` Datei. Um sie dort raus zu bekommen, muss die Datei Zeile für Zeile durchgangen und mit einem `regex`-Pattern abgeglichen werden. Wie die Daten in der Datei gelesen werden sollen, sagt uns Datei selber in den ersten Zeilen. 
+
+   - ```bash
+     # The syntax for the file is as follows:
+     # KEY:TYPE=VALUE
+     # KEY is the name of a variable in the cache.
+     # TYPE is a hint to GUIs for the type of VALUE, DO NOT EDIT TYPE!.
+     # VALUE is the current value for the KEY.
+     ```
+
+   - Von hier aus muss nun nur noch der `Key` zur gebrauchten `value` gesucht und gefunden werden.
+
+   - ```python
+     # returning the original dir where the build took place
+     def get_original_cmake_install_dir(filepath):
+         # Opening the file 
+         with open(filepath, "r") as file:
+             while True:
+                 # Get next line from file
+                 line = file.readline()
+                  
+                 # serach in the read line for the needed key
+                 if re.search(key_to_search_for, line):
+                     # clean the line from the key and any newlines and return it
+                     return line.replace(key_to_search_for, "").replace("\n", "")
+     
+                 # if line is empty
+                 # end of file is reached
+                 if not line:
+                     print("no original dir found")
+                     exit(1)
+     ```
+
+3. `scan through all files in build path and get all needed files`
+
+   - Dieser Scan ist sehr primitiv gehalten, kann jedoch in späterer Zeit noch verfeinert werden. Bisher geht er nur duch alle existenten Dateien durch,  merk sich jede mit lese und schreib rechten, und gibt diese zurück.
+
+   - ```python
+     def get_all_filepaths_in_path(local_path="."):
+         files = list()
+         scan = os.scandir(local_path)
+         for entry in scan:
+             # noinspection PyUnresolvedReferences
+             if entry.is_dir():
+                 for inner_entry in get_all_filepaths_in_path(entry.path):
+                     files.append(inner_entry)
+             elif entry.is_file():
+                 files.append(entry.path)
+     
+         return files
+     ```
+
+   - ACHTUNG: diese Funktion befindet sich in `env_utils.py`
+
+4. `add thread to list per file in need of change`
+
+   - Für jede bei Scan gefundene Datei wir nun ein `thread-object` erstellt, welches den funktions-handle für die Ersetzung, den Dateinamen, der zu ersetzende Wert und den Ersatz-Wert beinhaltet (zuzüglich kann auch noch eingestellt werden, ob eine Konsolen-Ausgabe stattfinden soll, oder nicht)
+
+   - ```python
+     def add_thread_event_to_list(_list, _filename, _old, _new, withOutput=False):
+         thread = threading.Thread(
+             target=replace_all_in_file, args=(_filename, _old, _new, withOutput)
+         )
+     
+         _list.append(thread)
+     ```
+
+   - ACHTUNG: diese Funktion befindet sich in `env_utils.py`
