@@ -41,6 +41,7 @@ Um das Umändern der Verlinkungen durchzuführen verwende ich eine kleine Menge 
 
 ```bash
 - env_utils.py
+- env_reader.py
 - prepare_flash.py
 - rework_build_link.py
 - rework_cmake_link.py
@@ -197,4 +198,15 @@ Die `rework`-scripts haben alle im allgemeinen den selben Ablauf.
      ```
 
    - ACHTUNG: diese Funktion befindet sich in `env_utils.py`
+
+#### `env_utils.py`
+
+Die `Environment Utilities` bestehen aus unterschiedlichen Codeteilen welche im gesamten Projekt immer öfters verwendet werden.
+
+| Name                        | Parameterliste                                               | Rückgabewert      | Beschreibung                                                 |
+| --------------------------- | ------------------------------------------------------------ | ----------------- | ------------------------------------------------------------ |
+| `get_all_filepaths_in_path` | local_path: str (default: . )                                | files: Array(str) | Gibt Pfade zu allen schreib/lesbaren Dateien zurück, die sich im gegebenen Pfad befinden |
+| `replace_all_in_file`       | filename: str, old: str, new: str, withOutput: boolean (default: False) | None              | Geht durch die gegebene Datei durch, und ersetzt alle Vorkommnisse von `old` mit `new` und gibt wahlweise dazu eine Konsolenausgabe |
+| `change_to_dir`             | directory: str                                               | None              | Ändert den Arbeitsbereich des laufenden Skriptes zum gegebene Pfad (`cd` wird verwendet) |
+| `add_thread_event_to_list`  | _list: list(), _filename: str, _old: str, _new: str, withOutput: boolean (default: False) | None              | Die gegebenen Daten werden in ein Thread-Objekt gepackt, welches beim starten die Funktion `replace_all_in_file` mit den gegebenen Parametern ausführt, und der angegebenen Liste hinzugefügt |
 
