@@ -51,4 +51,8 @@ Um das Umändern der Verlinkungen durchzuführen verwende ich eine kleine Menge 
 
 #### prepare_flash.py
 
+Das um die Vorbereitungen durchzuführen, nutzt das dafür entworfene Python-Script mehrere Scans. 
+
 ![prepare_flowchart](/home/note/PycharmProjects/westflashs/preparation_flowchart.png)
+
+Folgende Schritte werden durchlaufen:
