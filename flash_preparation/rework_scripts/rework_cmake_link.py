@@ -1,6 +1,6 @@
 import re
 
-from flash_preparation import env_utils
+from utils import env_utils
 import subprocess
 
 initial_cmake_install_key = "CMAKE_COMMAND:INTERNAL="

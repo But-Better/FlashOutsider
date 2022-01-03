@@ -2,7 +2,7 @@ import re
 
 import argparse
 
-from flash_preparation import env_utils
+from utils import env_utils
 
 parser = argparse.ArgumentParser(description='build information')
 

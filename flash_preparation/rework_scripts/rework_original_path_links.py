@@ -1,6 +1,6 @@
 import re
 
-from flash_preparation import env_utils
+from utils import env_utils
 
 path_to_build = "/home/note/zephyrproject/zephyr/samples/basic/fade_led/build"
 
