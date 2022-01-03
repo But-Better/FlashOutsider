@@ -111,6 +111,11 @@ Beispiel einer .env Datei
 zephyr=/home/user/zephyrproject/zephyr
 cmake=/usr/bin/cmake
 toolchain=/home/user/zephyr-sdk-0.13.2
+
+sftp_host=localhost
+sftp_port=22
+sftp_username=user
+sftp_password=password
 ```
 
 #### `rework` Scripts
