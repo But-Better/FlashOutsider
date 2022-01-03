@@ -1,10 +1,8 @@
-import os
 import re
-import threading
 
 import argparse
 
-import env_utils
+from utils import env_utils
 
 parser = argparse.ArgumentParser(description='build information')
 

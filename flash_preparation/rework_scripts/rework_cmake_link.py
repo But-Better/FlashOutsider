@@ -1,7 +1,6 @@
 import re
-import threading
 
-import env_utils
+from utils import env_utils
 import subprocess
 
 initial_cmake_install_key = "CMAKE_COMMAND:INTERNAL="
@@ -34,24 +33,26 @@ def get_local_cmake_install():
 
 
 # noinspection PyShadowingNames
-def run(pathToBuild):
-    local_install = get_local_cmake_install()
+def run(path_to_build, cmake_path=None):
+    if cmake_path is None:
+        cmake_path = get_local_cmake_install()
 
-    initial_install = get_original_cmake_install_dir(f"{pathToBuild}/CMakeCache.txt")
+    initial_install = get_original_cmake_install_dir(f"{path_to_build}/CMakeCache.txt")
 
-    all_paths = env_utils.get_all_filepaths_in_path(pathToBuild)
-
-    for filepath in all_paths:
-        env_utils.replace_all_in_file(filepath, initial_install, local_install, True)
-
-
-def add_needed_events_to_list(_thread_event_list, pathToBuild):
-    local_install = get_local_cmake_install()
-
-    initial_install = get_original_cmake_install_dir(f"{pathToBuild}/CMakeCache.txt")
-
-    all_paths = env_utils.get_all_filepaths_in_path(pathToBuild)
+    all_paths = env_utils.get_all_filepaths_in_path(path_to_build)
 
     for filepath in all_paths:
-        env_utils.add_thread_event_to_list(_thread_event_list, filepath, initial_install, local_install, True)
+        env_utils.replace_all_in_file(filepath, initial_install, cmake_path, True)
+
+
+def add_needed_events_to_list(_thread_event_list, path_to_build, cmake_path=None):
+    if cmake_path is None:
+        cmake_path = get_local_cmake_install()
+
+    initial_install = get_original_cmake_install_dir(f"{path_to_build}/CMakeCache.txt")
+
+    all_paths = env_utils.get_all_filepaths_in_path(path_to_build)
+
+    for filepath in all_paths:
+        env_utils.add_thread_event_to_list(_thread_event_list, filepath, initial_install, cmake_path, True)
 

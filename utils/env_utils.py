@@ -1,13 +1,11 @@
 import os
+import threading
 
 
 # list up all files existing in a path
 #
 # (this scan also lists up files in subdirectories,
 # but not the directories itself)
-import threading
-
-
 def get_all_filepaths_in_path(local_path="."):
     files = list()
     scan = os.scandir(local_path)
@@ -54,3 +52,8 @@ def add_thread_event_to_list(_list, _filename, _old, _new, withOutput=False):
     )
 
     _list.append(thread)
+
+
+def create_dir_if_not_existing(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)

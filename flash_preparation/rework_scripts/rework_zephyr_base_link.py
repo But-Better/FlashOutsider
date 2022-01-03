@@ -1,6 +1,6 @@
 import re
 
-import env_utils
+from utils import env_utils
 
 initial_toolchain_path_key = "ZEPHYR_BASE:PATH="
 

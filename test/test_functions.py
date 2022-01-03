@@ -3,8 +3,9 @@ import unittest
 
 import shutil
 
-from rework_scripts import rework_build_link
-import env_utils
+from flash_preparation.rework_scripts import rework_build_link
+from utils import env_utils
+from env_reader import env_reader
 
 
 class TestSetup(unittest.TestCase):
@@ -41,6 +42,10 @@ class TestSetup(unittest.TestCase):
         new_list = list()
         env_utils.add_thread_event_to_list(new_list, "filename", "old", "new", True)
         self.assertEqual(1, new_list.__len__())
+
+    def test_env_reader(self):
+        expected_dict = dict({"key": "value", "anotherkey": "anothervalue", "thisisisakey": "/this/is/a/value"})
+        self.assertEqual(expected_dict, env_reader.read_from_env("env_test_scan_file"))
 
 
 if __name__ == '__main__':

@@ -1,9 +1,8 @@
 import re
 
-import env_utils
-import subprocess
+from utils import env_utils
 
-pathToBuild = "/home/note/zephyrproject/zephyr/samples/basic/fade_led/build"
+path_to_build = "/home/note/zephyrproject/zephyr/samples/basic/fade_led/build"
 
 local_project = "/home/note/zephyrproject/zephyr/samples/basic/fade_led"
 
