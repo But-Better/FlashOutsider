@@ -1,5 +1,5 @@
-from utils import sftp_utils
-from env_reader import env_reader
+from python_scripts.utils import sftp_utils
+from python_scripts.env_reader import env_reader
 
 
 def read_in_env():

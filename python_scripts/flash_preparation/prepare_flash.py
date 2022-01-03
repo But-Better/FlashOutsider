@@ -1,10 +1,10 @@
 # noinspection PyUnresolvedReferences
 import threading
 
-from flash_preparation.rework_scripts import rework_build_link, rework_original_path_links, rework_cmake_link, \
-    rework_zephyr_base_link, rework_zephyr_toolchain_link
+from python_scripts.flash_preparation.rework_scripts import rework_build_link, rework_original_path_links, \
+    rework_cmake_link, rework_zephyr_base_link, rework_zephyr_toolchain_link
 
-from env_reader import env_reader
+from python_scripts.env_reader import env_reader
 
 env_file_path = ".env"
 

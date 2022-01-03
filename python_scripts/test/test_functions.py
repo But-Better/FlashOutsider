@@ -3,9 +3,9 @@ import unittest
 
 import shutil
 
-from flash_preparation.rework_scripts import rework_build_link
-from utils import env_utils
-from env_reader import env_reader
+from python_scripts.flash_preparation.rework_scripts import rework_build_link
+from python_scripts.utils import env_utils
+from python_scripts.env_reader import env_reader
 
 
 class TestSetup(unittest.TestCase):

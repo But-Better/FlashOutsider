@@ -2,7 +2,7 @@ import re
 
 import argparse
 
-from utils import env_utils
+from python_scripts.utils import env_utils
 
 parser = argparse.ArgumentParser(description='build information')
 
