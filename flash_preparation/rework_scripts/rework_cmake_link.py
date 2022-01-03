@@ -1,7 +1,6 @@
 import re
-import threading
 
-import env_utils
+from flash_preparation import env_utils
 import subprocess
 
 initial_cmake_install_key = "CMAKE_COMMAND:INTERNAL="

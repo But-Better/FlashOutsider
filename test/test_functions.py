@@ -3,8 +3,8 @@ import unittest
 
 import shutil
 
-from rework_scripts import rework_build_link
-import env_utils
+from flash_preparation.rework_scripts import rework_build_link
+from flash_preparation import env_utils
 from env_reader import env_reader
 
 
