@@ -1,6 +1,6 @@
 import re
 
-from utils import env_utils
+from python_scripts.utils import env_utils
 import subprocess
 
 initial_cmake_install_key = "CMAKE_COMMAND:INTERNAL="

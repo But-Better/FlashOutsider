@@ -1,6 +1,6 @@
 import re
 
-from utils import env_utils
+from python_scripts.utils import env_utils
 
 initial_toolchain_installation_key = "ZEPHYR_SDK_INSTALL_DIR:PATH="
 
