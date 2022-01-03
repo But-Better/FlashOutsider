@@ -2,8 +2,8 @@ from python_scripts.utils import sftp_utils
 from python_scripts.env_reader import env_reader
 
 
-def read_in_env():
-    read: dict = env_reader.read_from_env(".env")
+def read_in_env(env_file):
+    read: dict = env_reader.read_from_env(env_file)
     host = read["sftp_host"]
     port = int(read["sftp_port"])
     username = read["sftp_username"]
