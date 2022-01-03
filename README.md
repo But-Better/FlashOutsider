@@ -105,7 +105,13 @@ def read_from_env(path):
             set_value_if_existent(return_dir, regex_value_pattern, line)
 ```
 
+Beispiel einer .env Datei
 
+```bash
+zephyr=/home/user/zephyrproject/zephyr
+cmake=/usr/bin/cmake
+toolchain=/home/user/zephyr-sdk-0.13.2
+```
 
 #### `rework` Scripts
 
