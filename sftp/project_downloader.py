@@ -1,11 +1,11 @@
-import sftp_utils
+from utils import sftp_utils
 from env_reader import env_reader
 
 
 def read_in_env():
     read: dict = env_reader.read_from_env(".env")
     host = read["sftp_host"]
-    port = int(read["sftp_post"])
+    port = int(read["sftp_port"])
     username = read["sftp_username"]
     password = read["sftp_password"]
     download_path = read["sftp_download_path"]
