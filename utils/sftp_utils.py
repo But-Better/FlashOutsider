@@ -1,6 +1,7 @@
 import pysftp
-from paramiko.ssh_exception import AuthenticationException, PasswordRequiredException, SSHException
+from paramiko.ssh_exception import AuthenticationException, PasswordRequiredException
 from pysftp.exceptions import *
+import env_utils
 
 
 # creation creation of a sftp connection
@@ -23,6 +24,9 @@ def download_directory_from_sftp(conn: pysftp.Connection, remote_dir: str, local
     if not conn.lexists(remote_dir):
         IOError(f"remote directory {remote_dir} doesn't exist")
         return
+
+    env_utils.create_dir_if_not_existing(local_dir)
+
     conn.get_r(remote_dir, local_dir, True)
 
 
@@ -40,4 +44,3 @@ def scan_dirs_in_remote_location(conn: pysftp.Connection, remote_dir: str):
             remote_dirs.append(result)
 
     return remote_dirs
-
