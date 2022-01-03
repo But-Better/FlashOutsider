@@ -116,6 +116,7 @@ sftp_host=localhost
 sftp_port=22
 sftp_username=user
 sftp_password=password
+sftp_download_path=download_tmp
 ```
 
 #### `rework` Scripts
