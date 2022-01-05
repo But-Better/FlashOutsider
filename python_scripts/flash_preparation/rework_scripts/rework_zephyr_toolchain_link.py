@@ -1,6 +1,6 @@
 import re
 
-from python_scripts.utils import env_utils
+from specific_utils import env_utils
 
 initial_toolchain_installation_key = "ZEPHYR_SDK_INSTALL_DIR:PATH="
 
@@ -29,7 +29,7 @@ def run(pathToBuild, toolchain_path):
     all_paths = env_utils.get_all_filepaths_in_path(pathToBuild)
 
     for filepath in all_paths:
-        env_utils.replace_all_in_file(filepath, initial_toolchain_installation, toolchain_path, True)
+        env_utils.replace_all_in_file(filepath, initial_toolchain_installation, toolchain_path, False)
 
     pass
 
@@ -37,7 +37,10 @@ def run(pathToBuild, toolchain_path):
 def add_needed_events_to_list(event_list, pathToBuild, toolchain_path):
     initial_toolchain_installation = get_initial_toolchain_dir(f"{pathToBuild}/CMakeCache.txt")
 
+    if initial_toolchain_installation == toolchain_path:
+        print("no need to relink the toolchain installation path since it's the same than the initial one")
+
     all_paths = env_utils.get_all_filepaths_in_path(pathToBuild)
 
     for filepath in all_paths:
-        env_utils.add_thread_event_to_list(event_list, filepath, initial_toolchain_installation, toolchain_path, True)
+        env_utils.add_thread_event_to_list(event_list, filepath, initial_toolchain_installation, toolchain_path, False)

@@ -2,7 +2,7 @@ import re
 
 import argparse
 
-from python_scripts.utils import env_utils
+from specific_utils import env_utils
 
 parser = argparse.ArgumentParser(description='build information')
 
@@ -81,16 +81,16 @@ def run(pathToBuild, original=None):
     run_preparations()
 
 
-if __name__ == '__main__':
-    run_with_terminal_interaction()
-
-
 def add_needed_events_to_list(_thread_event_list, pathToBuild, original=None):
     if original is None:
         original = get_original_dir(f"{pathToBuild}/CMakeCache.txt")
 
+    if original == pathToBuild:
+        print("No need to rework path to build, it's already correct")
+        return
+
     all_files = env_utils.get_all_filepaths_in_path(pathToBuild)
 
     for filepath in all_files:
-        env_utils.add_thread_event_to_list(_thread_event_list, filepath, original, pathToBuild)
+        env_utils.add_thread_event_to_list(_thread_event_list, filepath, original, pathToBuild, False)
 

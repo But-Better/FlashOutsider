@@ -1,6 +1,6 @@
 import re
 
-from python_scripts.utils import env_utils
+from specific_utils import env_utils
 
 initial_toolchain_path_key = "ZEPHYR_BASE:PATH="
 
@@ -30,7 +30,7 @@ def run(pathToBuild, local_zephyr_base_installation):
     all_paths = env_utils.get_all_filepaths_in_path(pathToBuild)
 
     for filepath in all_paths:
-        env_utils.replace_all_in_file(filepath, initial_zephyr_base, local_zephyr_base_installation, True)
+        env_utils.replace_all_in_file(filepath, initial_zephyr_base, local_zephyr_base_installation, False)
 
 
 def add_needed_events_to_list(event_list, pathToBuild, local_zephyr_base_installation):
@@ -39,4 +39,5 @@ def add_needed_events_to_list(event_list, pathToBuild, local_zephyr_base_install
     all_paths = env_utils.get_all_filepaths_in_path(pathToBuild)
 
     for filepath in all_paths:
-        env_utils.add_thread_event_to_list(event_list, filepath, initial_zephyr_base, local_zephyr_base_installation, True)
+        env_utils.add_thread_event_to_list(event_list, filepath, initial_zephyr_base,
+                                           local_zephyr_base_installation, False)

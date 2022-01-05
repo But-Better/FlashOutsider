@@ -1,12 +1,11 @@
 # noinspection PyUnresolvedReferences
+import os.path
 import threading
 
-from python_scripts.flash_preparation.rework_scripts import rework_build_link, rework_original_path_links, \
-    rework_cmake_link, rework_zephyr_base_link, rework_zephyr_toolchain_link
+from flash_preparation.rework_scripts import rework_build_link, rework_original_path_links, \
+    rework_cmake_link, rework_zephyr_base_link, rework_zephyr_toolchain_link, remove_build_zephyr_directory
 
-from python_scripts.env_reader import env_reader
-
-env_file_path = ".env"
+from env_reader import env_reader
 
 default_zephyr_base_installation = "~/zephyrproject/zephyr"
 default_toolchain_installation = f"~/zephyr-sdk-0.13.2"
@@ -44,9 +43,15 @@ def run_threads_in_list():
         event.run()
 
 
-def run(path_to_build, project_path, cmake_install, zephyr_base_path, toolchain_installation):
-    # reading in from env
-    read_in_from_env(env_file_path)
+def run(project_path, cmake_install, zephyr_base_path, toolchain_installation, path_to_build=None):
+
+    if not os.path.exists(project_path):
+        EnvironmentError(f"project path: {project_path} couldn't be found")
+
+    if path_to_build is None:
+        path_to_build = f"{project_path}/build"
+
+    remove_build_zephyr_directory.run(path_to_build)
 
     # preparing link changes
     rework_build_link.add_needed_events_to_list(event_list, path_to_build)
@@ -57,5 +62,3 @@ def run(path_to_build, project_path, cmake_install, zephyr_base_path, toolchain_
 
     # run link changes
     run_threads_in_list()
-
-

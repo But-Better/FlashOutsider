@@ -1,6 +1,6 @@
 import re
 
-from python_scripts.utils import env_utils
+from specific_utils import env_utils
 import subprocess
 
 initial_cmake_install_key = "CMAKE_COMMAND:INTERNAL="
@@ -42,7 +42,7 @@ def run(path_to_build, cmake_path=None):
     all_paths = env_utils.get_all_filepaths_in_path(path_to_build)
 
     for filepath in all_paths:
-        env_utils.replace_all_in_file(filepath, initial_install, cmake_path, True)
+        env_utils.replace_all_in_file(filepath, initial_install, cmake_path, False)
 
 
 def add_needed_events_to_list(_thread_event_list, path_to_build, cmake_path=None):
@@ -51,8 +51,12 @@ def add_needed_events_to_list(_thread_event_list, path_to_build, cmake_path=None
 
     initial_install = get_original_cmake_install_dir(f"{path_to_build}/CMakeCache.txt")
 
+    if cmake_path == initial_install:
+        print("no need to update cmake link, link already correct")
+        return
+
     all_paths = env_utils.get_all_filepaths_in_path(path_to_build)
 
     for filepath in all_paths:
-        env_utils.add_thread_event_to_list(_thread_event_list, filepath, initial_install, cmake_path, True)
+        env_utils.add_thread_event_to_list(_thread_event_list, filepath, initial_install, cmake_path, False)
 

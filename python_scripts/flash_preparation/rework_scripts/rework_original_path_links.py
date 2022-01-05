@@ -1,6 +1,6 @@
 import re
 
-from python_scripts.utils import env_utils
+from specific_utils import env_utils
 
 path_to_build = "/home/note/zephyrproject/zephyr/samples/basic/fade_led/build"
 
@@ -34,13 +34,17 @@ def run(pathToBuild, local_project):
     all_paths = env_utils.get_all_filepaths_in_path(pathToBuild)
 
     for filepath in all_paths:
-        env_utils.replace_all_in_file(filepath, initial_project, local_project, True)
+        env_utils.replace_all_in_file(filepath, initial_project, local_project, False)
 
 
 def add_needed_events_to_list(event_list, pathToBuild, local_project):
     initial_project = get_original_project_dir(f"{pathToBuild}/CMakeCache.txt")
 
+    if local_project == initial_project:
+        print("no need to change local_project_path, sine it is the same as the original one")
+        return
+
     all_paths = env_utils.get_all_filepaths_in_path(pathToBuild)
 
     for filepath in all_paths:
-        env_utils.add_thread_event_to_list(event_list, filepath, initial_project, local_project, True)
+        env_utils.add_thread_event_to_list(event_list, filepath, initial_project, local_project, False)
