@@ -1,5 +1,6 @@
 import os
 import threading
+import shutil
 
 
 # list up all files existing in a path
@@ -52,6 +53,16 @@ def add_thread_event_to_list(_list, _filename, _old, _new, withOutput=False):
     )
 
     _list.append(thread)
+
+
+# moves target to the newly given location
+def move(target, to):
+    if not os.path.exists(target):
+        IOError(f"{target} doesn't exist, can't copy it somewhere")
+
+    create_dir_if_not_existing(to)
+
+    shutil.move(target, to)
 
 
 def create_dir_if_not_existing(directory):
