@@ -35,7 +35,7 @@ class TestSetup(unittest.TestCase):
             os.remove("file_to_update")
 
     def test_get_all_files_in_path(self):
-        file_scan = env_utils.get_all_filepaths_in_path("./scan_dir")
+        file_scan = env_utils.get_all_filepaths_in_path("scan_dir")
         self.assertEqual(["./scan_dir/a", "./scan_dir/b"], file_scan)
 
     def test_add_thread_event_to_list(self):

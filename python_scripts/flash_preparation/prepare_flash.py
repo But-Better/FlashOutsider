@@ -46,7 +46,7 @@ def run_threads_in_list():
 def run(project_path, cmake_install, zephyr_base_path, toolchain_installation, path_to_build=None):
 
     if not os.path.exists(project_path):
-        EnvironmentError(f"project path: {project_path} couldn't be found")
+        raise EnvironmentError(f"project path: {project_path} couldn't be found")
 
     if path_to_build is None:
         path_to_build = f"{project_path}/build"

@@ -17,12 +17,11 @@ def set_value_if_existent(_dict: dict, regex: re, string: str):
 # configuration reader for rework scripts
 def read_from_env(path):
     if not os.path.exists(path):
-        IOError(f"Configuration file could not be found, Path: {path} doesn't exist")
-        exit(1)
+        raise IOError(f"Configuration file could not be found, Path: {path} doesn't exist")
 
     with open(path, "r") as file:
         if not file.readable():
-            IOError(f"Configuration file could not be read, Path: {path} ")
+            raise IOError(f"Configuration file could not be read, Path: {path} ")
 
         while True:
             # Get next line from file
