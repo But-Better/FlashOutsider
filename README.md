@@ -1,7 +1,5 @@
 # Flash on Pi
 
-
-
 Der "flash" wird in 3 generellen Schritten durchgeführt:
 
 1. laden des projektes
@@ -31,6 +29,8 @@ Da der `build` prozess auf einem anderem System geschehen ist, muss der `flash` 
 #### CMakeCache.txt
 
 Diese Datei kann man fast als Informationsausgabe vom `build` Prozess bezeichnen. Sie beinhaltet viele verschiedene Informationen, welche unteranderem auch die Umgebung umfasst, in welcher der `build`  Prozess stattfand(generiert wird sie vom Tool: `cmake`). 
+
+[Zephyr Build System](https://docs.zephyrproject.org/latest/application/index.html)
 
 Die für uns wichtigsten Informationsteile zum vorbereiten des flash-prozesses sind folgende:
 
