@@ -1,12 +1,19 @@
 import os
+import subprocess
 import threading
 import shutil
 
+from distutils import dir_util
 
 # list up all files existing in a path
 #
 # (this scan also lists up files in subdirectories,
 # but not the directories itself)
+from distutils.errors import DistutilsFileError
+
+from env_reader import env_reader
+
+
 def get_all_filepaths_in_path(local_path="."):
     files = list()
     scan = os.scandir(local_path)
@@ -79,16 +86,33 @@ def remove_dir(path):
 
 # moves target to the newly given location
 def move(target, to, overwrite=False):
-
     if os.path.exists(to) and not overwrite:
         raise FileExistsError(f"{to} already exists, but wasn't allowed to overwrite it")
 
     elif overwrite:
         remove_dir(to)
+        create_dir_if_not_existing(to)
 
-    create_dir_if_not_existing(to)
+    if os.path.isdir(target):
+        try:
+            dir_util.copy_tree(target, to)
+        except DistutilsFileError:
+            use_env_copy(target, to)
 
-    shutil.move(target, to)
+        dir_util.remove_tree(target)
+    else:
+        shutil.move(target, to)
+
+
+def target_exists(target):
+    return os.path.exists(target)
+
+
+def use_env_copy(target, to):
+    external_copy = get_env("external_recursive_copy_tool")
+    change_to_dir(exclude_last_in_path(external_copy))
+    return exec_command(["./copy", f"{target}/*", to])
+    pass
 
 
 def copy_dir(target, to, overwrite=False):
@@ -98,9 +122,10 @@ def copy_dir(target, to, overwrite=False):
     elif overwrite:
         remove_dir(path=to)
 
-    create_dir_if_not_existing(directory=to)
-
-    shutil.copytree(src=target, dst=to)
+    try:
+        dir_util.copy_tree(src=target, dst=to)
+    except DistutilsFileError:
+        use_env_copy(target, to)
 
 
 def create_dir_if_not_existing(directory):
@@ -127,3 +152,31 @@ def directory_contains_file(path: str, searched_file: str):
     else:
         return False
 
+
+def create_empty_file_if_non_existing(file_path):
+    if os.path.exists(file_path):
+        return
+    else:
+        # create a file
+        with open(file_path, 'w') as fp:
+            fp.close()
+
+
+def exec_command(command):
+    res = subprocess.check_output(command)  # system command
+    return res.decode("utf-8")
+
+
+def get_env(key, env_file=".env"):
+    current_env = env_reader.read_from_env(env_file)
+
+    if current_env.keys().__contains__(key):
+        return current_env[key]
+    else:
+        return None
+
+
+def exclude_last_in_path(project):
+    project_split = project.split("/")
+    project_split.pop()
+    return ''.join(str(f"{e}/") for e in project_split)[:-1]

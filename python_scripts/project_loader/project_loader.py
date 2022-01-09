@@ -3,9 +3,7 @@ from specific_utils import env_utils
 
 # exclude the last directory in path (here most likely "build")
 def exclude_build_dir(project):
-    project_split = project.split("/")
-    project_split.pop()
-    return ''.join(str(f"{e}/") for e in project_split)[:-1]
+    return env_utils.exclude_last_in_path(project)
     pass
 
 
@@ -28,7 +26,7 @@ def project_contains_needed_files(project):
            env_utils.directory_contains_file(path=project, searched_file="app")
 
 
-def load(projects_directory, to, specific=None):
+def load(projects_directory, to, specific=None, copy=False, overwrite=False):
     if not specific:
         specific = pick_new_project_to_load(projects_directory)
 
@@ -36,14 +34,17 @@ def load(projects_directory, to, specific=None):
         print("no projects currently available")
         raise EnvironmentError("no viable projects found")
 
-    return load_in_specific_project(project=specific, project_name=specific.split("/")[-1], to=to)
+    return load_in_specific_project(project=specific, project_name=specific.split("/")[-1], to=to, copy=copy, overwrite=overwrite)
     pass
 
 
-def load_in_specific_project(project, project_name, to):
+def load_in_specific_project(project, project_name, to, copy=False, overwrite=False):
     new_directory = f"{to}/{project_name}"
     try:
-        env_utils.move(target=f"{project}", to=new_directory)
+        if copy:
+            env_utils.copy_dir(target=f"{project}", to=new_directory, overwrite=overwrite)
+        else:
+            env_utils.move(target=f"{project}", to=new_directory, overwrite=overwrite)
     except FileExistsError as e:
         print(e)
         return None
