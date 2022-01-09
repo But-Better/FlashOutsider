@@ -35,8 +35,8 @@ class TestSetup(unittest.TestCase):
             os.remove("file_to_update")
 
     def test_get_all_files_in_path(self):
-        file_scan = env_utils.get_all_filepaths_in_path("./scan_dir")
-        self.assertEqual(["./scan_dir/a", "./scan_dir/b"], file_scan)
+        file_scan = env_utils.get_all_filepaths_in_path("scan_dir")
+        self.assertEqual(["scan_dir/a", "scan_dir/b"], file_scan)
 
     def test_add_thread_event_to_list(self):
         new_list = list()
@@ -46,6 +46,30 @@ class TestSetup(unittest.TestCase):
     def test_env_reader(self):
         expected_dict = dict({"key": "value", "anotherkey": "anothervalue", "thisisisakey": "/this/is/a/value"})
         self.assertEqual(expected_dict, env_reader.read_from_env("env_test_scan_file"))
+
+    def test_copy_dir(self):
+        if os.path.exists("copy_dir/to_here/copy") and os.path.isfile("copy_dir/to_here/copy"):
+            os.remove("copy_dir/to_here/copy")
+
+        from_dir = "copy_dir/from_here"
+        to_dir = "copy_dir/to_here"
+        env_utils.copy_dir(from_dir, to_dir, overwrite=True)
+        self.assertTrue(os.path.exists("copy_dir/to_here/copy"))
+
+    def test_move_dir(self):
+        if os.path.exists("move_dir/to/file") and os.path.isfile("move_dir/to/file"):
+            os.remove("move_dir/to/file")
+
+        from_dir = "move_dir/from/this"
+        to_dir = "move_dir/to"
+
+        env_utils.create_dir_if_not_existing(from_dir)
+        env_utils.create_empty_file_if_non_existing(f"{from_dir}/file")
+
+        env_utils.move(from_dir, to_dir, overwrite=True)
+
+        self.assertTrue(os.path.exists(f"{to_dir}/file"))
+        self.assertFalse(os.path.exists(f"{from_dir}/file"))
 
 
 if __name__ == '__main__':
