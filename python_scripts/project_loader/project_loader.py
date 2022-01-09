@@ -14,15 +14,18 @@ def pick_new_project_to_load(path):
     for project in potential_projects:
         project = f"{project}/build"
 
-        if env_utils.directory_contains_file(path=project, searched_file="CMakeCache.txt") and \
-                env_utils.directory_contains_file(path=project, searched_file="build.ninja") and \
-                env_utils.directory_contains_file(path=project, searched_file="app"):
-
+        if project_contains_needed_files(project):
             project = exclude_build_dir(project=project)
             return project
 
     return None
     pass
+
+
+def project_contains_needed_files(project):
+    return env_utils.directory_contains_file(path=project, searched_file="CMakeCache.txt") and \
+           env_utils.directory_contains_file(path=project, searched_file="build.ninja") and \
+           env_utils.directory_contains_file(path=project, searched_file="app")
 
 
 def load(projects_directory, to, specific=None):
